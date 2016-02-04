@@ -20,4 +20,4 @@ script:
     - python setup.py develop
     - py.test
 after_success:
-    - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then coveralls --config_file .coveragerc; fi
+    - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then coveralls; fi
