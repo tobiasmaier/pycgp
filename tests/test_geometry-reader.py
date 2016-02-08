@@ -93,5 +93,6 @@ def test_three_set(cgp_reader, data):
 def test_topological_point_set(cgp_reader, data):
     for cell_order in [1, 2, 3]:
         for label in range(1, cgp_reader.max_label(cell_order)+1):
-            assert_equal(cgp_reader.topological_point_set(cell_order, label).points,
-                         data('topological-point-set', cell_order, label))
+            assert_equal(
+                    cgp_reader.topological_point_set(cell_order, label).points,
+                    data('topological-point-set', cell_order, label))
