@@ -13,7 +13,7 @@ before_install:
     - conda create -q -n pycgp-test python=$TRAVIS_PYTHON_VERSION h5py numpy scipy setuptools pip
     - source activate pycgp-test
 
-    - pip install pytest pytest-cov
+    - pip install pytest pytest-cov pytest-pep8
     - pip install coveralls
 script:
     - python setup.py develop

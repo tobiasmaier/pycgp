@@ -8,7 +8,7 @@ class TopologicalPointSet():
     def __init__(self, cell_order, points=[], sign=None):
         self.cell_order = cell_order
         self.points = np.array(points, coordinate_type)
-        self.sign=sign
+        self.sign = sign
 
     def adjacent_voxels(self):
         return np.array(map(self.point_to_voxel, self.points))
