@@ -14,7 +14,7 @@ MAINTAINER_EMAIL    = 'tobias.maier@unibas.ch'
 URL                 = 'https://github.com/tobiasmaier/pycgp'
 LICENSE             = 'BSD 3-clause'
 DOWNLOAD_URL        = 'https://github.com/tobiasmaier/pycgp'
-VERSION             = '0.1-dev'
+VERSION             = '0.1.1-dev'
 PYTHON_VERSION      = (2, 7)
 INST_DEPENDENCIES   = {}
 
