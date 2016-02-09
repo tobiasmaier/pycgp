@@ -45,6 +45,10 @@ def test_size(cgp_reader, data):
                          data('size', cell_order, label))
 
 
+def test_shape(cgp_reader, data):
+    assert_equal(cgp_reader.shape(), [50, 50, 50])
+
+
 def test_bounds(cgp_reader, data):
     for cell_order in [0, 1, 2]:
         for label in range(1, cgp_reader.max_label(cell_order)+1):
