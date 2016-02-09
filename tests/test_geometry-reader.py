@@ -51,6 +51,10 @@ def test_size(cgp_reader, data):
         cgp_reader.size(-1, 1)
     with pytest.raises(AssertionError):
         cgp_reader.size(4, 1)
+    with pytest.raises(AssertionError):
+        cgp_reader.size(2, 0)
+    with pytest.raises(AssertionError):
+        cgp_reader.size(2, cgp_reader.max_label(2)+1)
 
 
 def test_shape(cgp_reader, data):
@@ -66,6 +70,10 @@ def test_bounds(cgp_reader, data):
         cgp_reader.bounds(-1, 1)
     with pytest.raises(AssertionError):
         cgp_reader.bounds(3, 1)
+    with pytest.raises(AssertionError):
+        cgp_reader.bounds(2, 0)
+    with pytest.raises(AssertionError):
+        cgp_reader.bounds(2, cgp_reader.max_label(2)+1)
 
 
 def test_bounded_by(cgp_reader, data):
@@ -77,6 +85,10 @@ def test_bounded_by(cgp_reader, data):
         cgp_reader.bounded_by(0, 1)
     with pytest.raises(AssertionError):
         cgp_reader.bounded_by(4, 1)
+    with pytest.raises(AssertionError):
+        cgp_reader.bounded_by(2, 0)
+    with pytest.raises(AssertionError):
+        cgp_reader.bounded_by(2, cgp_reader.max_label(2)+1)
 
 
 def test_adjacent(cgp_reader, data):
@@ -88,30 +100,50 @@ def test_adjacent(cgp_reader, data):
         cgp_reader.adjacent(0, 1)
     with pytest.raises(AssertionError):
         cgp_reader.adjacent(4, 1)
+    with pytest.raises(AssertionError):
+        cgp_reader.adjacent(2, 0)
+    with pytest.raises(AssertionError):
+        cgp_reader.adjacent(2, cgp_reader.max_label(2)+1)
 
 
 def test_zero_set(cgp_reader, data):
     for label in range(1, cgp_reader.max_label(0)+1):
         assert_equal(cgp_reader.zero_set(label).points,
                      data('zero-set', None, label).reshape((1, 3)))
+    with pytest.raises(AssertionError):
+        cgp_reader.zero_set(0)
+    with pytest.raises(AssertionError):
+        cgp_reader.zero_set(cgp_reader.max_label(0)+1)
 
 
 def test_one_set(cgp_reader, data):
     for label in range(1, cgp_reader.max_label(1)+1):
         assert_equal(cgp_reader.one_set(label).points,
                      data('one-set', None, label))
+    with pytest.raises(AssertionError):
+        cgp_reader.one_set(0)
+    with pytest.raises(AssertionError):
+        cgp_reader.one_set(cgp_reader.max_label(1)+1)
 
 
 def test_two_set(cgp_reader, data):
     for label in range(1, cgp_reader.max_label(2)+1):
         assert_equal(cgp_reader.two_set(label).points,
                      data('two-set', None, label))
+    with pytest.raises(AssertionError):
+        cgp_reader.two_set(0)
+    with pytest.raises(AssertionError):
+        cgp_reader.two_set(cgp_reader.max_label(2)+1)
 
 
 def test_three_set(cgp_reader, data):
     for label in range(1, cgp_reader.max_label(3)+1):
         assert_equal(cgp_reader.three_set(label).points,
                      data('three-set', None, label))
+    with pytest.raises(AssertionError):
+        cgp_reader.three_set(0)
+    with pytest.raises(AssertionError):
+        cgp_reader.three_set(cgp_reader.max_label(3)+1)
 
 
 def test_topological_point_set(cgp_reader, data):
@@ -124,3 +156,7 @@ def test_topological_point_set(cgp_reader, data):
         cgp_reader.topological_point_set(0, 1)
     with pytest.raises(AssertionError):
         cgp_reader.topological_point_set(4, 1)
+    with pytest.raises(AssertionError):
+        cgp_reader.topological_point_set(2, 0)
+    with pytest.raises(AssertionError):
+        cgp_reader.topological_point_set(2, cgp_reader.max_label(2)+1)

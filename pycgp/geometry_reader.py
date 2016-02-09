@@ -31,13 +31,11 @@ class GeometryReader:
         self._n_bins = self.geometry_file.attrs['number-of-bins']
 
     def max_label(self, cell_order):
-        assert cell_order in (0, 1, 2, 3), \
-            '"cell_order" must be in {0,1,2,3}, but %d given' % cell_order
+        self._check_precondition(cell_order, None, (0, 1, 2, 3))
         return self._max_labels[cell_order]
 
     def size(self, cell_order, label):
-        assert cell_order in (0, 1, 2, 3), \
-            '"cell_order" must be in {0,1,2,3}, but %d given' % cell_order
+        self._check_precondition(cell_order, label, (0, 1, 2, 3))
         if cell_order == 0:
             return 1
         sizes = [self._sets_data(cell_order, label, part).shape[1]
@@ -48,40 +46,40 @@ class GeometryReader:
         return self._shape
 
     def zero_set(self, label):
+        self._check_precondition(0, label, (0,))
         point_data = self._sets_data(0, label).T
         return TopologicalPointSet(0, point_data)
 
     def one_set(self, label):
+        self._check_precondition(1, label, (1,))
         return TopologicalPointSet(1, np.abs(self._point_data(1, label)))
 
     def two_set(self, label):
+        self._check_precondition(2, label, (2,))
         point_data = self._point_data(2, label)
         return TopologicalPointSet(2, np.abs(point_data),
                                    sign=np.any(point_data < 0, axis=1))
 
     def three_set(self, label):
+        self._check_precondition(3, label, (3,))
         return TopologicalPointSet(3, np.abs(self._point_data(3, label)))
 
     def topological_point_set(self, cell_order, label):
-        assert cell_order in (1, 2, 3), \
-            '"cell_order" must be in {1,2,3}, but %d given' % cell_order
+        self._check_precondition(cell_order, label, (1, 2, 3))
         return TopologicalPointSet(cell_order,
                                    np.abs(self._point_data(cell_order, label)))
 
     def bounds(self, cell_order, label):
-        assert cell_order in (0, 1, 2), \
-            '"cell_order" must be in {0,1,2}, but %d given' % cell_order
+        self._check_precondition(cell_order, label, (0, 1, 2))
         neighbors = self._bounds[cell_order][:, label - 1]
         return np.setdiff1d(neighbors, [0])
 
     def bounded_by(self, cell_order, label):
-        assert cell_order in (1, 2, 3), \
-            '"cell_order" must be in {1,2,3}, but %d given' % cell_order
+        self._check_precondition(cell_order, label, (1, 2, 3))
         return self._bounded_by[cell_order][label].data
 
     def adjacent(self, cell_order, label):
-        assert cell_order in (1, 2, 3), \
-            '"cell_order" must be in {1,2,3}, but %d given' % cell_order
+        self._check_precondition(cell_order, label, (1, 2, 3))
         adjacent = np.unique(
             [adj_label for bound_label in self.bounded_by(cell_order, label)
              for adj_label in self.bounds(cell_order-1, bound_label)])
@@ -109,3 +107,9 @@ class GeometryReader:
 
     def _bin_number(self, label):
         return label % self._n_bins
+
+    def _check_precondition(self, cell_order, label, valid_cell_order):
+        assert cell_order in valid_cell_order, \
+            '"cell_order" must be in %s, but %d given' % (valid_cell_order, cell_order)
+        assert label == None or label > 0 and label <= self._max_labels[cell_order], \
+            '"label" must be in [0,...,%d], but %d given' % (self._max_labels[cell_order], label)
