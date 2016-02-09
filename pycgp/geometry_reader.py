@@ -31,9 +31,13 @@ class GeometryReader:
         self._n_bins = self.geometry_file.attrs['number-of-bins']
 
     def max_label(self, cell_order):
+        assert cell_order in (0, 1, 2, 3), \
+            '"cell_order" must be in {0,1,2,3}, but %d given' % cell_order
         return self._max_labels[cell_order]
 
     def size(self, cell_order, label):
+        assert cell_order in (0, 1, 2, 3), \
+            '"cell_order" must be in {0,1,2,3}, but %d given' % cell_order
         if cell_order == 0:
             return 1
         sizes = [self._sets_data(cell_order, label, part).shape[1]
@@ -59,19 +63,25 @@ class GeometryReader:
         return TopologicalPointSet(3, np.abs(self._point_data(3, label)))
 
     def topological_point_set(self, cell_order, label):
+        assert cell_order in (1, 2, 3), \
+            '"cell_order" must be in {1,2,3}, but %d given' % cell_order
         return TopologicalPointSet(cell_order,
                                    np.abs(self._point_data(cell_order, label)))
 
     def bounds(self, cell_order, label):
-        if cell_order >= 3:
-            raise '"cell_order" must be in {0,1,2}, but %d given' % cell_order
+        assert cell_order in (0, 1, 2), \
+            '"cell_order" must be in {0,1,2}, but %d given' % cell_order
         neighbors = self._bounds[cell_order][:, label - 1]
         return np.setdiff1d(neighbors, [0])
 
     def bounded_by(self, cell_order, label):
+        assert cell_order in (1, 2, 3), \
+            '"cell_order" must be in {1,2,3}, but %d given' % cell_order
         return self._bounded_by[cell_order][label].data
 
     def adjacent(self, cell_order, label):
+        assert cell_order in (1, 2, 3), \
+            '"cell_order" must be in {1,2,3}, but %d given' % cell_order
         adjacent = np.unique(
             [adj_label for bound_label in self.bounded_by(cell_order, label)
              for adj_label in self.bounds(cell_order-1, bound_label)])
