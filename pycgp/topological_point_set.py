@@ -5,13 +5,16 @@ from .cgp_config import coordinate_type
 
 
 class TopologicalPointSet():
-    def __init__(self, cell_order, points=[], sign=None):
+    def __init__(self, cell_order, points):
         self.cell_order = cell_order
-        self.points = np.array(points, coordinate_type)
-        self.sign = sign
+        self.points = np.abs(points)
+        self.sign = 1 - 2 * np.any(np.asarray(points) < 0, axis=1).astype(np.int8)
 
     def adjacent_voxels(self):
         return np.array(map(self.point_to_voxel, self.points))
+
+    def size(self):
+        return len(self.points)
 
     def point_to_voxel(self, point):
         c = [None]*3

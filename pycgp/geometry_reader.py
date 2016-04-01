@@ -52,22 +52,19 @@ class GeometryReader:
 
     def one_set(self, label):
         self._check_precondition(1, label, (1,))
-        return TopologicalPointSet(1, np.abs(self._point_data(1, label)))
+        return TopologicalPointSet(1, self._point_data(1, label))
 
     def two_set(self, label):
         self._check_precondition(2, label, (2,))
-        point_data = self._point_data(2, label)
-        return TopologicalPointSet(2, np.abs(point_data),
-                                   sign=np.any(point_data < 0, axis=1))
+        return TopologicalPointSet(2, self._point_data(2, label))
 
     def three_set(self, label):
         self._check_precondition(3, label, (3,))
-        return TopologicalPointSet(3, np.abs(self._point_data(3, label)))
+        return TopologicalPointSet(3, self._point_data(3, label))
 
     def topological_point_set(self, cell_order, label):
         self._check_precondition(cell_order, label, (1, 2, 3))
-        return TopologicalPointSet(cell_order,
-                                   np.abs(self._point_data(cell_order, label)))
+        return TopologicalPointSet(cell_order, self._point_data(cell_order, label))
 
     def bounds(self, cell_order, label):
         self._check_precondition(cell_order, label, (0, 1, 2))
