@@ -1,7 +1,8 @@
 from setuptools import setup
 
 descr = """Reader for GCP files in pure python.
-pycgp is a pure pythen alternative to the wrapped GeometryReader that comes with
+
+pycgp is a pure python alternative to the wrapped GeometryReader that comes with
 the CPG Software package available at:
 http://hci.iwr.uni-heidelberg.de/MIP/Software/cgp.php
 """
@@ -14,7 +15,7 @@ MAINTAINER_EMAIL    = 'tobias.maier@unibas.ch'
 URL                 = 'https://github.com/tobiasmaier/pycgp'
 LICENSE             = 'BSD 3-clause'
 DOWNLOAD_URL        = 'https://github.com/tobiasmaier/pycgp'
-VERSION             = '0.1.1-dev'
+VERSION             = '0.1.2-dev'
 PYTHON_VERSION      = (2, 7)
 INST_DEPENDENCIES   = {}
 
