@@ -86,7 +86,12 @@ class GeometryReader:
         return np.setdiff1d(adjacent, label)
 
     def _data(self, group):
-        return np.array(self.geometry_file[group])
+        try:
+            return np.array(self.geometry_file[group])
+        except:
+            if self.verbose:
+                print('WARNING: group "%s" not found in %s' % (group, self.geometry_file.filename))
+            return np.array([]).reshape((0,0))
 
     def _sets_data(self, cell_order, label, part_number=None):
         bin_number = self._bin_number(label)
