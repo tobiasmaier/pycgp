@@ -1,13 +1,16 @@
 import h5py
 import numpy as np
 from scipy.sparse import csr_matrix
+from os.path import expanduser
 
 from .topological_point_set import TopologicalPointSet
 
 
 class GeometryReader:
     def __init__(self, filename, verbose=False):
-        self.geometry_file = h5py.File(filename, 'r')
+
+        fn  = expanduser(filename)
+        self.geometry_file = h5py.File(fn, 'r')
         self.verbose = verbose
 
         self._max_labels = self._data('max-labels')
